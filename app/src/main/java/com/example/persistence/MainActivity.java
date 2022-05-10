@@ -2,6 +2,7 @@ package com.example.persistence;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,5 +84,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(view == readField4){
             Log.d("==>", String.valueOf(dataField4.getText()));
         }
+        else if(view == writeField1){
+            addAppData("Test123");
+        }
+    }
+
+    private long addAppData(String text) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
+        return database.insert(DatabaseTables.appdata.TABLE_NAME, null, values);
     }
 }
