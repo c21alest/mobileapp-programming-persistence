@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
@@ -53,5 +55,33 @@ public class MainActivity extends AppCompatActivity {
 
         readField4 = findViewById(R.id.fourth_button_read);
         writeField4 = findViewById(R.id.fourth_button_write);
+
+        readField1.setOnClickListener((View.OnClickListener) this);
+        writeField1.setOnClickListener((View.OnClickListener) this);
+
+        readField2.setOnClickListener((View.OnClickListener) this);
+        writeField2.setOnClickListener((View.OnClickListener) this);
+
+        readField3.setOnClickListener((View.OnClickListener) this);
+        writeField3.setOnClickListener((View.OnClickListener) this);
+
+        readField4.setOnClickListener((View.OnClickListener) this);
+        writeField4.setOnClickListener((View.OnClickListener) this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == readField1){
+            Log.d("==>", String.valueOf(dataField1.getText()));
+        }
+        else if(view == readField2){
+            Log.d("==>", String.valueOf(dataField2.getText()));
+        }
+        else if(view == readField3){
+            Log.d("==>", String.valueOf(dataField3.getText()));
+        }
+        else if(view == readField4){
+            Log.d("==>", String.valueOf(dataField4.getText()));
+        }
     }
 }
