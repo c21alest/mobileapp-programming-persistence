@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button deleteThirdField;
     private Button deleteFourthField;
 
+    private Button readAllFields;
+
     private ArrayList appDataArray;
     private String[] updateId;
     private String updateText;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clearFields = findViewById(R.id.clear_all_button);
         deleteAllData = findViewById(R.id.delete_all);
+        readAllFields = findViewById(R.id.read_all_fields);
 
         deleteFirstField = findViewById(R.id.delete_first_field);
         deleteSecondField = findViewById(R.id.delete_second_field);
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         clearFields.setOnClickListener((View.OnClickListener) this);
         deleteAllData.setOnClickListener((View.OnClickListener) this);
+        readAllFields.setOnClickListener((View.OnClickListener) this);
 
         deleteFirstField.setOnClickListener((View.OnClickListener) this);
         deleteSecondField.setOnClickListener((View.OnClickListener) this);
@@ -210,6 +214,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (view == deleteFourthField) {
             updateAppData(null, new String[]{"4"});
             dataField4.setText("");
+        }
+
+        if(view == readAllFields){
+            getAppData();
+            dataField1.setText((String) appDataArray.get(0));
+            dataField2.setText((String) appDataArray.get(1));
+            dataField3.setText((String) appDataArray.get(2));
+            dataField4.setText((String) appDataArray.get(3));
         }
     }
 

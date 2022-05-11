@@ -174,4 +174,12 @@
         app:layout_constraintTop_toTopOf="@id/fourth_button_write"
         android:text="Delete" />
 
+    <Button
+        android:id="@+id/read_all_fields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/clear_all_button"
+        app:layout_constraintTop_toBottomOf="@id/clear_all_button"
+        android:text="Read all" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
