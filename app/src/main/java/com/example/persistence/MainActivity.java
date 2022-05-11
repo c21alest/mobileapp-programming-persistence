@@ -3,12 +3,16 @@ package com.example.persistence;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button readField4;
     private Button writeField4;
+
+    private ArrayList appDataArray;
+    private ArrayList DBobj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view == readField1){
-            Log.d("==>", String.valueOf(dataField1.getText()));
+            getAppData();
+
+            Log.d("==>", Arrays.toString(appDataArray.toArray()));
+
         }
         else if(view == readField2){
             Log.d("==>", String.valueOf(dataField2.getText()));
@@ -89,9 +99,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private long addAppData(String text) {
+
+    private void addAppData(String text) {
         ContentValues values = new ContentValues();
         values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
-        return database.insert(DatabaseTables.appdata.TABLE_NAME, null, values);
+        database.insert(DatabaseTables.appdata.TABLE_NAME, null, values);
+    }
+
+    private void getAppData() {
+        Cursor cursor = database.query(DatabaseTables.appdata.TABLE_NAME, null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            AppData appData = new AppData(
+                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.appdata.COLUMN_NAME_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.appdata.COLUMN_NAME_TEXT))
+            );
+            Log.d("==>", String.valueOf(appData.getText()));
+            appDataArray = new ArrayList();
+            appDataArray.add(appData.getText());
+        }
+        cursor.close();
     }
 }
