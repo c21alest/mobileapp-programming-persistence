@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button deleteAllData;
 
     private Button deleteFirstField;
+    private Button deleteSecondField;
+    private Button deleteThirdField;
+    private Button deleteFourthField;
 
     private ArrayList appDataArray;
     private String[] updateId;
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteAllData = findViewById(R.id.delete_all);
 
         deleteFirstField = findViewById(R.id.delete_first_field);
+        deleteSecondField = findViewById(R.id.delete_second_field);
+        deleteThirdField = findViewById(R.id.delete_third_field);
+        deleteFourthField = findViewById(R.id.delete_fourth_field);
 
         readField1.setOnClickListener((View.OnClickListener) this);
         writeField1.setOnClickListener((View.OnClickListener) this);
@@ -91,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteAllData.setOnClickListener((View.OnClickListener) this);
 
         deleteFirstField.setOnClickListener((View.OnClickListener) this);
+        deleteSecondField.setOnClickListener((View.OnClickListener) this);
+        deleteThirdField.setOnClickListener((View.OnClickListener) this);
+        deleteFourthField.setOnClickListener((View.OnClickListener) this);
     }
 
     @Override
@@ -181,13 +190,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         else if (view == deleteAllData) {
             deleteAppData();
-            Log.d("==>", "klar");
         }
 
         else if (view == deleteFirstField) {
             updateAppData(null, new String[]{"1"});
             dataField1.setText("");
-            Log.d("==>", "klar");
+        }
+
+        else if (view == deleteSecondField) {
+            updateAppData(null, new String[]{"2"});
+            dataField2.setText("");
+        }
+
+        else if (view == deleteThirdField) {
+            updateAppData(null, new String[]{"3"});
+            dataField3.setText("");
+        }
+
+        else if (view == deleteFourthField) {
+            updateAppData(null, new String[]{"4"});
+            dataField4.setText("");
         }
     }
 
