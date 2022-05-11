@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button writeField4;
 
     private ArrayList appDataArray;
-    private ArrayList DBobj;
+    private String[] updateId;
+    private int indexes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         readField4.setOnClickListener((View.OnClickListener) this);
         writeField4.setOnClickListener((View.OnClickListener) this);
+
+        // Antal rader som finns i databas som motsvarar antalet edittext fält
+        indexes = 4;
     }
 
     @Override
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view == readField1){
             getAppData();
 
+            Log.d("==>", "0: " + (String) appDataArray.get(0));
             Log.d("==>", Arrays.toString(appDataArray.toArray()));
 
         }
@@ -92,29 +97,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("==>", String.valueOf(dataField3.getText()));
         }
         else if(view == readField4){
-            Log.d("==>", String.valueOf(dataField4.getText()));
+            getAppData();
         }
         else if(view == writeField1){
-            addAppData("Test123");
+            updateAppData("New123", new String[]{"1"});
         }
     }
 
+    private void updateAppData(String text, String[] updateId) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
+        database.update(DatabaseTables.appdata.TABLE_NAME, values, "id = ?", updateId);
+        Log.d("==>", "Uppdaterade data");
+    }
 
     private void addAppData(String text) {
         ContentValues values = new ContentValues();
         values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
         database.insert(DatabaseTables.appdata.TABLE_NAME, null, values);
+        Log.d("==>", "Skrev data");
     }
 
     private void getAppData() {
         Cursor cursor = database.query(DatabaseTables.appdata.TABLE_NAME, null, null, null, null, null, null);
+        appDataArray = new ArrayList();
         while (cursor.moveToNext()) {
             AppData appData = new AppData(
                     cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.appdata.COLUMN_NAME_ID)),
                     cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.appdata.COLUMN_NAME_TEXT))
             );
             Log.d("==>", String.valueOf(appData.getText()));
-            appDataArray = new ArrayList();
             appDataArray.add(appData.getText());
         }
         cursor.close();
