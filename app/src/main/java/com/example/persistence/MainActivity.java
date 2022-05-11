@@ -43,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList appDataArray;
     private String[] updateId;
-    private int indexes;
-    private int fields;
     private String updateText;
 
     @Override
@@ -93,11 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteAllData.setOnClickListener((View.OnClickListener) this);
 
         deleteFirstField.setOnClickListener((View.OnClickListener) this);
-
-        // Antal rader som finns i databas som motsvarar antalet edittext fält
-        fields = 4;
-        // Index startar på noll
-        indexes = (fields - 1);
     }
 
     @Override
@@ -193,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         else if (view == deleteFirstField) {
             updateAppData(null, new String[]{"1"});
+            dataField1.setText("");
             Log.d("==>", "klar");
         }
     }
