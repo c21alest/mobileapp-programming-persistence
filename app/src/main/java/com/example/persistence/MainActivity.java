@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList appDataArray;
     private String[] updateId;
     private int indexes;
+    private String updateText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,22 +86,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view == readField1){
             getAppData();
-
-            Log.d("==>", "0: " + (String) appDataArray.get(0));
-            Log.d("==>", Arrays.toString(appDataArray.toArray()));
-
+            dataField1.setText((String) appDataArray.get(0));
         }
+
         else if(view == readField2){
-            Log.d("==>", String.valueOf(dataField2.getText()));
+            getAppData();
+            dataField2.setText((String) appDataArray.get(1));
         }
+
         else if(view == readField3){
-            Log.d("==>", String.valueOf(dataField3.getText()));
+            getAppData();
+            dataField3.setText((String) appDataArray.get(2));
         }
+
         else if(view == readField4){
             getAppData();
+            dataField4.setText((String) appDataArray.get(3));
         }
+
         else if(view == writeField1){
-            updateAppData("New123", new String[]{"1"});
+            updateText = dataField1.getText().toString();
+
+            getAppData();
+
+            Log.d("==>", "Start");
+            if (indexes >= appDataArray.size() || indexes < 0) {
+                // Gör när inte null
+                updateAppData(updateText, new String[]{"1"});
+
+            }
+            else {
+                // Gör på null
+                addAppData("New123");
+            }
+            Log.d("==>", String.valueOf(dataField4.getText()));
+        }
+
+        else if(view == writeField2){
+            updateText = dataField2.getText().toString();
+
+            getAppData();
+
+            Log.d("==>", "Start");
+            if (indexes >= appDataArray.size() || indexes < 1) {
+                // Gör när inte null
+                updateAppData(updateText, new String[]{"2"});
+
+            }
+            else {
+                // Gör på null
+                addAppData("New123");
+            }
+            Log.d("==>", String.valueOf(dataField4.getText()));
+        }
+
+        else if(view == writeField3){
+            updateText = dataField3.getText().toString();
+
+            getAppData();
+
+            Log.d("==>", "Start");
+            if (indexes >= appDataArray.size() || indexes < 2) {
+                // Gör när inte null
+                Log.d("==>", "Ska uppdatera med: " + updateText);
+                updateAppData(updateText, new String[]{"3"});
+
+            }
+            else {
+                // Gör på null
+                addAppData("New123");
+            }
+            Log.d("==>", String.valueOf(dataField4.getText()));
+        }
+
+        else if(view == writeField4){
+            updateText = dataField4.getText().toString();
+
+            getAppData();
+
+            Log.d("==>", "Start");
+            if (indexes >= appDataArray.size() || indexes < 3) {
+                // Gör när inte null
+                updateAppData(updateText, new String[]{"4"});
+
+            }
+            else {
+                // Gör på null
+                addAppData("New123");
+            }
+            Log.d("==>", String.valueOf(dataField4.getText()));
         }
     }
 
