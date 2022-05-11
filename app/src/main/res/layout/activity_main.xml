@@ -125,4 +125,12 @@
         app:layout_constraintTop_toTopOf="@+id/fourth_field"
         android:text="Write" />
 
+    <Button
+        android:id="@+id/clear_all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/fourth_field"
+        app:layout_constraintLeft_toLeftOf="@id/fourth_field"
+        android:text="Clear Preview" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

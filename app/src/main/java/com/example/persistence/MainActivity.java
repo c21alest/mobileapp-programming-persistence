@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button readField4;
     private Button writeField4;
 
+    private Button clearFields;
+
     private ArrayList appDataArray;
     private String[] updateId;
     private int indexes;
+    private int fields;
     private String updateText;
 
     @Override
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         readField4 = findViewById(R.id.fourth_button_read);
         writeField4 = findViewById(R.id.fourth_button_write);
 
+        clearFields = findViewById(R.id.clear_all_button);
+
         readField1.setOnClickListener((View.OnClickListener) this);
         writeField1.setOnClickListener((View.OnClickListener) this);
 
@@ -78,8 +83,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         readField4.setOnClickListener((View.OnClickListener) this);
         writeField4.setOnClickListener((View.OnClickListener) this);
 
+        clearFields.setOnClickListener((View.OnClickListener) this);
+
         // Antal rader som finns i databas som motsvarar antalet edittext fält
-        indexes = 4;
+        fields = 4;
+        // Index startar på noll
+        indexes = (fields - 1);
     }
 
     @Override
@@ -175,6 +184,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 addAppData("New123");
             }
             Log.d("==>", String.valueOf(dataField4.getText()));
+        }
+
+        else if (view == clearFields) {
+            dataField1.setText("");
+            dataField2.setText("");
+            dataField3.setText("");
+            dataField4.setText("");
         }
     }
 
