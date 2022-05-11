@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button writeField4;
 
     private Button clearFields;
+    private Button deleteAllData;
+
+    private Button deleteFirstField;
 
     private ArrayList appDataArray;
     private String[] updateId;
@@ -70,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         writeField4 = findViewById(R.id.fourth_button_write);
 
         clearFields = findViewById(R.id.clear_all_button);
+        deleteAllData = findViewById(R.id.delete_all);
+
+        deleteFirstField = findViewById(R.id.delete_first_field);
 
         readField1.setOnClickListener((View.OnClickListener) this);
         writeField1.setOnClickListener((View.OnClickListener) this);
@@ -84,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         writeField4.setOnClickListener((View.OnClickListener) this);
 
         clearFields.setOnClickListener((View.OnClickListener) this);
+        deleteAllData.setOnClickListener((View.OnClickListener) this);
+
+        deleteFirstField.setOnClickListener((View.OnClickListener) this);
 
         // Antal rader som finns i databas som motsvarar antalet edittext fält
         fields = 4;
@@ -118,16 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             getAppData();
 
-            Log.d("==>", "Start");
-            if (indexes >= appDataArray.size() || indexes < 0) {
-                // Gör när inte null
+            try {
+                appDataArray.get(0);
                 updateAppData(updateText, new String[]{"1"});
+            } catch (IndexOutOfBoundsException e) {
+                addAppData(updateText, 1);
+            }
 
-            }
-            else {
-                // Gör på null
-                addAppData("New123");
-            }
             Log.d("==>", String.valueOf(dataField4.getText()));
         }
 
@@ -136,15 +142,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             getAppData();
 
-            Log.d("==>", "Start");
-            if (indexes >= appDataArray.size() || indexes < 1) {
-                // Gör när inte null
+            try {
+                appDataArray.get(1);
                 updateAppData(updateText, new String[]{"2"});
-
-            }
-            else {
-                // Gör på null
-                addAppData("New123");
+            } catch (IndexOutOfBoundsException e) {
+                addAppData(updateText, 2);
             }
             Log.d("==>", String.valueOf(dataField4.getText()));
         }
@@ -154,16 +156,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             getAppData();
 
-            Log.d("==>", "Start");
-            if (indexes >= appDataArray.size() || indexes < 2) {
-                // Gör när inte null
-                Log.d("==>", "Ska uppdatera med: " + updateText);
+            try {
+                appDataArray.get(2);
                 updateAppData(updateText, new String[]{"3"});
-
-            }
-            else {
-                // Gör på null
-                addAppData("New123");
+            } catch (IndexOutOfBoundsException e) {
+                addAppData(updateText, 3);
             }
             Log.d("==>", String.valueOf(dataField4.getText()));
         }
@@ -173,15 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             getAppData();
 
-            Log.d("==>", "Start");
-            if (indexes >= appDataArray.size() || indexes < 3) {
-                // Gör när inte null
+            try {
+                appDataArray.get(3);
                 updateAppData(updateText, new String[]{"4"});
-
-            }
-            else {
-                // Gör på null
-                addAppData("New123");
+            } catch (IndexOutOfBoundsException e) {
+                addAppData(updateText, 4);
             }
             Log.d("==>", String.valueOf(dataField4.getText()));
         }
@@ -192,6 +185,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dataField3.setText("");
             dataField4.setText("");
         }
+
+        else if (view == deleteAllData) {
+            deleteAppData();
+            Log.d("==>", "klar");
+        }
+
+        else if (view == deleteFirstField) {
+            updateAppData(null, new String[]{"1"});
+            Log.d("==>", "klar");
+        }
     }
 
     private void updateAppData(String text, String[] updateId) {
@@ -201,8 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("==>", "Uppdaterade data");
     }
 
-    private void addAppData(String text) {
+    private void addAppData(String text, int id) {
         ContentValues values = new ContentValues();
+        values.put(DatabaseTables.appdata.COLUMN_NAME_ID, id);
         values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
         database.insert(DatabaseTables.appdata.TABLE_NAME, null, values);
         Log.d("==>", "Skrev data");
@@ -219,6 +223,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("==>", String.valueOf(appData.getText()));
             appDataArray.add(appData.getText());
         }
+        Log.d("==>", Arrays.toString(appDataArray.toArray()));
         cursor.close();
+    }
+
+    private void deleteAppData() {
+        database.execSQL(DatabaseTables.SQL_DELETE_TABLE_APPDATA);
+        database.execSQL(DatabaseTables.SQL_CREATE_TABLE_APPDATA);
+
+        addAppData(null, 1);
+        addAppData(null, 2);
+        addAppData(null, 3);
+        addAppData(null, 4);
     }
 }
