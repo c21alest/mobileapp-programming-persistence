@@ -180,4 +180,5 @@ _Figur 5.1 instansera click listners_
 _Figur 5.2 kod som triggas av click listners_
 
 Video som illusterar appens funktion:
+
 <img src="preview.gif" width="40%">
