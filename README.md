@@ -9,6 +9,7 @@ Sen längst ned finns det en knapp för att radera förhandsvisningen, vilket be
 själva databasen. Sedan finns det en som raderar hela databasen och den sista läser all data från databasen och visar den i korrekt fält.
 
 <img src="layout.png" width="40%">
+
 _Figur 1.1 Bild över layout_
 
 ## Databastabell
