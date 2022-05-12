@@ -17,7 +17,6 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SQLiteDatabase database;
-    private DatabaseHelper databaseHelper;
 
     private EditText dataField1;
     private EditText dataField2;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button readAllFields;
 
     private ArrayList appDataArray;
-    private String[] updateId;
     private String updateText;
 
     @Override
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        databaseHelper = new DatabaseHelper(this);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
         database = databaseHelper.getWritableDatabase();
 
         dataField1 = findViewById(R.id.first_field);
@@ -84,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deleteThirdField = findViewById(R.id.delete_third_field);
         deleteFourthField = findViewById(R.id.delete_fourth_field);
 
+        // Skapar flera click listners för att använda i if funktion nedan
         readField1.setOnClickListener((View.OnClickListener) this);
         writeField1.setOnClickListener((View.OnClickListener) this);
 
@@ -108,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        // Om click listner för att läsa fält hämtas detta från ArrayList
         if(view == readField1){
             getAppData();
             dataField1.setText((String) appDataArray.get(0));
@@ -128,16 +128,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dataField4.setText((String) appDataArray.get(3));
         }
 
+        // Om click listner för att skriva kommer fält datan att placeras i databassen
         else if(view == writeField1){
             updateText = dataField1.getText().toString();
 
             getAppData();
 
+            // Testar om värde finns i ArrayList
             try {
                 appDataArray.get(0);
                 updateAppData(updateText, new String[]{"1"});
             } catch (IndexOutOfBoundsException e) {
-                addAppData(updateText, 1);
+                addAppData(updateText, 1); // Skriver till id 1 i databastupel
             }
 
             Log.d("==>", String.valueOf(dataField4.getText()));
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         else if (view == deleteFirstField) {
-            updateAppData(null, new String[]{"1"});
+            updateAppData(null, new String[]{"1"}); // Skriver tom data till databasfält
             dataField1.setText("");
         }
 
@@ -225,21 +227,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // Uppdaterar specifik tupel med data
     private void updateAppData(String text, String[] updateId) {
         ContentValues values = new ContentValues();
         values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
         database.update(DatabaseTables.appdata.TABLE_NAME, values, "id = ?", updateId);
-        Log.d("==>", "Uppdaterade data");
     }
 
+    // Lägger till data med specifikt id
     private void addAppData(String text, int id) {
         ContentValues values = new ContentValues();
         values.put(DatabaseTables.appdata.COLUMN_NAME_ID, id);
         values.put(DatabaseTables.appdata.COLUMN_NAME_TEXT, text);
         database.insert(DatabaseTables.appdata.TABLE_NAME, null, values);
-        Log.d("==>", "Skrev data");
     }
 
+    // Hämtar data från databas och lägger det i en arraylist
     private void getAppData() {
         Cursor cursor = database.query(DatabaseTables.appdata.TABLE_NAME, null, null, null, null, null, null);
         appDataArray = new ArrayList();
@@ -255,10 +258,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cursor.close();
     }
 
+    // Raderar databas för att sedan skapa en ny
     private void deleteAppData() {
         database.execSQL(DatabaseTables.SQL_DELETE_TABLE_APPDATA);
         database.execSQL(DatabaseTables.SQL_CREATE_TABLE_APPDATA);
 
+        // Lägger null värden i de id:n som krävs för att skriv och uppdateringsmetoder ska funka
         addAppData(null, 1);
         addAppData(null, 2);
         addAppData(null, 3);
